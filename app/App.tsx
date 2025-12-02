@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 
+
 import EscanerPantalla from "./src/screens/EscanerPantalla";
 import PresentacionPantalla from "./src/screens/PresentacionPantalla";
 

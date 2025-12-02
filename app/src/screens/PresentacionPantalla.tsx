@@ -13,11 +13,9 @@ const PresentacionPantalla: React.FC = () => {
           <View style={styles.content}>
             <Text style={styles.title}>CARPARITO</Text>
             <Text style={styles.subtitle}>TE QUIERO MUCHO</Text>
-            
             <View style={styles.buttonContainer}>
-             <TouchableOpacity 
-  style={styles.button}
-  onPress={() => navigation.navigate('Inicio')}
+             <TouchableOpacity style={styles.button}
+              onPress={() => navigation.navigate('registrarUsuario')}
 >
   <Text style={styles.buttonText}>Registra Usuarios</Text>
 </TouchableOpacity>
