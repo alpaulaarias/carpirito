@@ -1,41 +1,36 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useContext } from 'react';
-import { UserContext } from './context/UserContext';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useEffect, useState } from "react";
 
-
-import PresentacionPantalla from './src/PresentacionPantalla';
-// Asumo que tienes una pantalla de Registro real
-
-import EscanerPantalla from './src/EscanerPantalla';
+import EscanerPantalla from "./src/screens/EscanerPantalla";
+import PresentacionPantalla from "./src/screens/PresentacionPantalla";
 
 
 const Stack = createNativeStackNavigator();
 
+export default function MainNavigator() {
+  const [usuario, setUsuario] = useState<boolean | null>(null);
 
-const MainNavigator = () => {
-  
-    const { usuario } = useContext(UserContext);
+  useEffect(() => {
+    const loadUser = async () => {
+      const u = await AsyncStorage.getItem("usuario");
+      setUsuario(u === "true");
+    };
+    loadUser();
+  }, []);
 
-    return (
-        <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
-            
+  if (usuario === null) return null;
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {!usuario ? (
+        <Stack.Screen name="Presentacion" component={PresentacionPantalla} />
+      ) : (
+        <>
+          <Stack.Screen name="Escaner" component={EscanerPantalla} />
          
-            {!usuario ? (
-                <>
-                    <Stack.Screen name="Presentacion" component={PresentacionPantalla} />
-                    
-                    
-                </>
-            ) : (
-               
-                <>
-                  
-                    <Stack.Screen name="Escaner" component={EscanerPantalla} />
-                    {/* Agrega aquí más rutas de la aplicación autenticada */}
-                </>
-            )}
-        </Stack.Navigator>
-    );
-};
-
-export default MainNavigator; // Agrega la exportación para usarlo en App.tsx
+        </>
+      )}
+    </Stack.Navigator>
+  );
+}

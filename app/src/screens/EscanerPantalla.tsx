@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { StackParamList } from '../../types/types';
+import { StackParamList } from '../../../types/types';
 
 
 type EscanerScreenNavigationProp = NativeStackNavigationProp<StackParamList, 'EscanerPantalla'>;

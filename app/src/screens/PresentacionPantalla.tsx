@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { StackParamList } from '../../types/types';
+import { StackParamList } from '../../../types/types';
 
 const PresentacionPantalla: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
@@ -15,19 +15,20 @@ const PresentacionPantalla: React.FC = () => {
             <Text style={styles.subtitle}>TE QUIERO MUCHO</Text>
             
             <View style={styles.buttonContainer}>
-              <TouchableOpacity 
-                style={styles.button}
-                onPress={() => navigation.navigate('Inicio')}
-              >
-                <Text style={styles.buttonText}>Registra Usuarios</Text>
-              </TouchableOpacity>
+             <TouchableOpacity 
+  style={styles.button}
+  onPress={() => navigation.navigate('Inicio')}
+>
+  <Text style={styles.buttonText}>Registra Usuarios</Text>
+</TouchableOpacity>
 
-              <TouchableOpacity 
-                style={[styles.button, styles.registerButton]}
-                onPress={() => navigation.navigate('EscanerPantalla')}
-              >
-                <Text style={[styles.buttonText, styles.registerButtonText]}>Escanea Qr</Text>
-              </TouchableOpacity>
+<TouchableOpacity 
+  style={[styles.button, styles.registerButton]}
+  onPress={() => navigation.navigate('EscanerPantalla')}
+>
+  <Text style={[styles.buttonText, styles.registerButtonText]}>Escanea QR</Text>
+</TouchableOpacity>
+
             </View>
           </View>
   );
