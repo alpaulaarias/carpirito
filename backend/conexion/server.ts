@@ -15,7 +15,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-// esta funcionando o no 
+// confirmacion de funcion  
 pool.connect()
   .then(() => console.log("📌 PostgreSQL conectado correctamente"))
   .catch((err) => console.error("❌ Error conectando a Postgres:", err));
@@ -32,8 +32,8 @@ app.post("/api/users", async (req, res) => {
     }
 
     const result = await pool.query(
-      `INSERT INTO users (first_name, cedula, email, cargo)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO users (first_name, cedula, email)
+       VALUES ($1, $2, $3)
        RETURNING id`,
       [first_name, cedula, email]
     );

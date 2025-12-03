@@ -1,37 +1,14 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
+// index.js / App.tsx (Archivo principal)
+import { NavigationContainer } from '@react-navigation/native';
+import MainNavigator from './MainNavigator'; // El componente donde está el Stack.Navigator
+import { UserProvider } from './src/services/userContext';
 
-
-import EscanerPantalla from "./src/screens/EscanerPantalla";
-import PresentacionPantalla from "./src/screens/PresentacionPantalla";
-
-
-const Stack = createNativeStackNavigator();
-
-export default function MainNavigator() {
-  const [usuario, setUsuario] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const loadUser = async () => {
-      const u = await AsyncStorage.getItem("usuario");
-      setUsuario(u === "true");
-    };
-    loadUser();
-  }, []);
-
-  if (usuario === null) return null;
-
+export default function App() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {!usuario ? (
-        <Stack.Screen name="Presentacion" component={PresentacionPantalla} />
-      ) : (
-        <>
-          <Stack.Screen name="Escaner" component={EscanerPantalla} />
-         
-        </>
-      )}
-    </Stack.Navigator>
+    <UserProvider>
+      <NavigationContainer>
+        <MainNavigator />
+      </NavigationContainer>
+    </UserProvider>
   );
 }
