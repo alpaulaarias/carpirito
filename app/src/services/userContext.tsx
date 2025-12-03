@@ -1,72 +1,91 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+// src/services/userContext.tsx
 
-type Usuario = {
- id_usuario: number;
-  nombre: string;
-  correo: string;
-  telefono: string;
- 
-  foto: string;
-  
-} | null;
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
-type UserContextType = {
-  usuario: Usuario;
-  setUsuario: (u: Usuario) => void;
-  logout: () => void;
+// --- TIPOS DE TYPESCRIPT ---
+
+// Define el tipo de dato que tendrá el contexto
+interface UserContextType {
+  isRegistered: boolean;
+  isLoading: boolean;
+  markUserAsRegistered: () => Promise<void>;
+  // Opcionalmente, una función para cerrar sesión si la necesitaras:
+  // logout: () => Promise<void>; 
+}
+
+// Define el valor inicial del contexto
+const initialContextValue: UserContextType = {
+  isRegistered: false,
+  isLoading: true, // Indica que aún estamos cargando el valor de AsyncStorage
+  markUserAsRegistered: async () => {}, // Función de placeholder
 };
 
-export const UserContext = createContext<UserContextType>({
-  usuario: null,
-  setUsuario: () => {},
-  logout: () => {},
-});
+// --- CREACIÓN DEL CONTEXTO ---
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [usuario, setUsuarioState] = useState<Usuario>(null);
-  const [loading, setLoading] = useState(true);
+// 1. Crea el contexto
+const UserContext = createContext<UserContextType>(initialContextValue);
 
-  // Cargar usuario de AsyncStorage al iniciar la app
+// 2. Hook para usar el contexto fácilmente
+export const useUser = () => useContext(UserContext);
+
+// --- COMPONENTE PROVEEDOR (PROVIDER) ---
+
+// Define el tipo para las props del proveedor (los children)
+interface UserProviderProps {
+  children: ReactNode;
+}
+
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  
+  const STORAGE_KEY = 'usuarioRegistrado'; // Clave que usarás en AsyncStorage
+
+  // Efecto para cargar el estado del usuario al iniciar la app
   useEffect(() => {
-    const cargarUsuario = async () => {
+    const loadRegistrationStatus = async () => {
       try {
-        const usuarioGuardado = await AsyncStorage.getItem('usuario');
-        if (usuarioGuardado) setUsuarioState(JSON.parse(usuarioGuardado));
+        // Lee el valor de AsyncStorage
+        const storedValue = await AsyncStorage.getItem(STORAGE_KEY);
+        // Si el valor es "true", marca al usuario como registrado
+        setIsRegistered(storedValue === 'true');
       } catch (error) {
-        console.log('Error cargando usuario:', error);
+        console.error("Error al cargar el estado de registro:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false); // La carga ha terminado
       }
     };
-    cargarUsuario();
+
+    loadRegistrationStatus();
   }, []);
 
-  const setUsuario = async (u: Usuario) => {
-    setUsuarioState(u);
-    if (u) {
-      await AsyncStorage.setItem('usuario', JSON.stringify(u));
+
+  const markUserAsRegistered = async () => {
+    try {
+      
+      await AsyncStorage.setItem(STORAGE_KEY, 'true');
+      
+      setIsRegistered(true);
+      
+      
+
+    } catch (error) {
+      console.error("Error al guardar el estado de registro:", error);
     }
   };
 
-  const logout = async () => {
-    setUsuarioState(null);
-    await AsyncStorage.removeItem('usuario');
+ 
+  const contextValue: UserContextType = {
+    isRegistered,
+    isLoading,
+    markUserAsRegistered,
   };
 
-  // Mostrar loader mientras se verifica sesión
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' }}>
-        <ActivityIndicator size="large" color="#00ffb3" />
-      </View>
-    );
-  }
-
   return (
-    <UserContext.Provider value={{ usuario, setUsuario, logout }}>
+    <UserContext.Provider value={contextValue}>
+      
       {children}
     </UserContext.Provider>
-   );
+  );
 };

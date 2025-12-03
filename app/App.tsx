@@ -1,14 +1,14 @@
-// index.js / App.tsx (Archivo principal)
+// App.tsx
+
 import { NavigationContainer } from '@react-navigation/native';
-import MainNavigator from './MainNavigator'; // El componente donde está el Stack.Navigator
-import { UserProvider } from './src/services/userContext';
+import MainNavigator from './MainNavigator';
 
 export default function App() {
   return (
-    <UserProvider>
+    
       <NavigationContainer>
         <MainNavigator />
       </NavigationContainer>
-    </UserProvider>
+    
   );
 }

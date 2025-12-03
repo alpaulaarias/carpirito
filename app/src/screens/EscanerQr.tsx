@@ -4,7 +4,7 @@ import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { StackParamList } from '../../../types/types'; // Ajusta el path si es necesario
+import { StackParamList } from '../../types/types'; // Ajusta el path si es necesario
 
 
 // Define el tipo de navegación específica para esta pantalla

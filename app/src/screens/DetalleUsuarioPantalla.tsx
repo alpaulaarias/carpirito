@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
-import { StackParamList } from '../../../types/types'; // Ajusta el path si es necesario
+import { StackParamList } from '../../types/types'; // Ajusta el path si es necesario
 
 type DetalleUsuarioRouteProp = RouteProp<StackParamList, 'DetalleUsuario'>;
 

@@ -1,94 +1,95 @@
-// import { useNavigation } from '@react-navigation/native';
-// import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-// import React from 'react';
-// import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import { StackParamList } from '../../../types/types';
 
-// const PresentacionPantalla: React.FC = () => {
-//   const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
-  
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StackParamList } from '../../types/types';
 
-//   return (
-    
-//           <View style={styles.content}>
-//             <Text style={styles.title}>CARPARITO</Text>
-//             <Text style={styles.subtitle}>TE QUIERO MUCHO</Text>
-//             <View style={styles.buttonContainer}>
-//              <TouchableOpacity style={styles.button}
-//               onPress={() => navigation.navigate('registrarUsuario')}
-// >
-//   <Text style={styles.buttonText}>Registra Usuarios</Text>
-// </TouchableOpacity>
+type PresentationScreenNavigationProp =
+  NativeStackNavigationProp<StackParamList, 'Presentacion'>;
 
-// <TouchableOpacity 
-//   style={[styles.button, styles.registerButton]}
-//   onPress={() => navigation.navigate('EscanerPantalla')}
-// >
-//   <Text style={[styles.buttonText, styles.registerButtonText]}>Escanea QR</Text>
-// </TouchableOpacity>
+const PresentacionPantalla = () => {
 
-//             </View>
-//           </View>
-//   );
-// };
+  const navigation = useNavigation<PresentationScreenNavigationProp>();
 
-// // Estilos
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#000',
-//   },
-//   image: {
-//     flex: 1,
-//     width: '100%',
-//     height: '100%',
-//   },
-//   gradient: {
-//     flex: 1,
-//     justifyContent: 'flex-end',
-//     padding: 20,
-//   },
-//   content: {
-//     marginBottom: 40,
-//   },
-//   title: {
-//     fontSize: 36,
-//     fontWeight: 'bold',
-//     color: '#fff',
-//     textAlign: 'center',
-//     marginBottom: 10,
-//   },
-//   subtitle: {
-//     fontSize: 18,
-//     color: '#fff',
-//     textAlign: 'center',
-//     marginBottom: 40,
-//   },
-//   buttonContainer: {
-//     marginHorizontal: 20,
-//   },
-//   button: {
-//     backgroundColor: '#fff',
-//     padding: 15,
-//     borderRadius: 30,
-//     alignItems: 'center',
-//     marginBottom: 15,
-//     borderColor: "#006D77",
-//     borderWidth: 2,
-//   },
-//   buttonText: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//     color: '#4d82bc',
-//   },
-//   registerButton: {
-//     backgroundColor: 'transparent',
-//     borderWidth: 2,
-//     borderColor: "#006D77",
-//   },
-//   registerButtonText: {
-//     color: '#fff',
-//   },
-// });
+  return (
+    <View style={styles.container}>
+      <View style={styles.content}>
+        
+        <Text style={styles.title}>CARPARITO</Text>
+        <Text style={styles.subtitle}>TE QUIERO MUCHO</Text>
 
-// export default PresentacionPantalla;
+        <View style={styles.buttonContainer}>
+
+          {/* ✔ Navegar al formulario */}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('registrarUsuario')}
+          >
+            <Text style={styles.buttonText}>Registrar Usuario</Text>
+          </TouchableOpacity>
+
+          {/* ✔ Navegar al escáner */}
+          <TouchableOpacity
+            style={[styles.button, styles.registerButton]}
+            onPress={() => navigation.navigate('EscanerQR')}
+          >
+            <Text style={styles.registerButtonText}>Escanear QR</Text>
+          </TouchableOpacity>
+
+        </View>
+
+      </View>
+    </View>
+  );
+};
+
+export default PresentacionPantalla;
+
+// Estilos ↓
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  content: {
+    marginTop: 150,
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  buttonContainer: {
+    marginHorizontal: 20,
+  },
+  button: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#4d82bc',
+  },
+  registerButton: {
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: "#fff",
+  },
+  registerButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+});
